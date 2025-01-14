@@ -21,13 +21,9 @@ Este projeto usa visão computacional para substituir o uso do mouse por movimen
 2. Clone este repositório:
    ```bash
    git clone https://github.com/seu-usuario/hand-mouse-control.git
-Instale as dependências:
-bash
-Copiar código
-pip install -r requirements.txt
-Execute o script:
-bash
-Copiar código
-python hand_mouse_control.py
+Instale as dependências: pip install -r requirements.txt
+Execute o script: python hand_mouse_control.py
+
 Contribuição
+
 Este projeto ainda está em estágio inicial e foi criado para atender uma necessidade urgente. Se você tem ideias para melhorá-lo, sinta-se à vontade para abrir uma issue ou enviar um pull request.
