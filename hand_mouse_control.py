@@ -43,17 +43,36 @@ while True:
             def is_finger_extended(finger_tip, finger_dip):
                 return finger_tip.y < finger_dip.y  # Dedos esticados têm a ponta acima da articulação DIP
 
-            # Verifica os dedos indicador, médio, anelar e mínimo
-            four_fingers_extended = all([
+            fingers_extended = [
                 is_finger_extended(
                     hand_landmarks.landmark[getattr(mp_hands.HandLandmark, f"{finger}_TIP")],
                     hand_landmarks.landmark[getattr(mp_hands.HandLandmark, f"{finger}_DIP")]
                 )
                 for finger in ["INDEX_FINGER", "MIDDLE_FINGER", "RING_FINGER", "PINKY"]
-            ])
+            ]
 
-            # Aciona Windows + Tab ao abrir os quatro dedos
-            if four_fingers_extended:
+            num_fingers_extended = sum(fingers_extended)
+
+            # 1 dedo esticado: clique único
+            if num_fingers_extended == 1 and fingers_extended[0]:
+                pyautogui.click()
+
+            # 2 dedos esticados: clique e segure (arrastar)
+            elif num_fingers_extended == 2 and fingers_extended[0] and fingers_extended[1]:
+                if not is_dragging:
+                    pyautogui.mouseDown()
+                    is_dragging = True
+            else:
+                if is_dragging:
+                    pyautogui.mouseUp()
+                    is_dragging = False
+
+            # 3 dedos esticados: clique com botão direito
+            if num_fingers_extended == 3 and fingers_extended[0] and fingers_extended[1] and fingers_extended[2]:
+                pyautogui.rightClick()
+
+            # 4 dedos esticados: Windows + Tab
+            if num_fingers_extended == 4:
                 if not windows_tab_triggered:
                     pyautogui.hotkey('win', 'tab')
                     windows_tab_triggered = True
